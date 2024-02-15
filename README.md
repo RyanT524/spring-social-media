@@ -158,8 +158,6 @@ Updates the profile of a user with the given username. If no such user exists, t
 ### `DELETE  users/@{username}`
 "Deletes" a user with the given username. If no such user exists or the provided credentials do not match the user, an error should be sent in lieu of a response. If a user is successfully "deleted", the response should contain the user data prior to deletion.
 
-**IMPORTANT:** This action should not actually drop any records from the database! Instead, develop a way to keep track of "deleted" users so that if a user is re-activated, all of their tweets and information are restored.
-
 #### Request
 ```javascript
 'Credentials'
@@ -261,8 +259,6 @@ The response should contain the newly-created tweet.
 
 Because this always creates a simple tweet, it must have a `content` property and may not have `inReplyTo` or `repostOf` properties.
 
-**IMPORTANT:** when a tweet with `content` is created, the server must process the tweet's content for `@{username}` mentions and `#{hashtag}` tags. There is no way to create hashtags or create mentions from the API, so this must be handled automatically!
-
 #### Request
 ```javascript
 {
@@ -286,8 +282,6 @@ Retrieves a tweet with a given id. If no such tweet exists, or the given tweet i
 
 ### `DELETE  tweets/{id}`
 "Deletes" the tweet with the given id. If no such tweet exists or the provided credentials do not match author of the tweet, an error should be sent in lieu of a response. If a tweet is successfully "deleted", the response should contain the tweet data prior to deletion.
-
-**IMPORTANT:** This action should not actually drop any records from the database! Instead, develop a way to keep track of "deleted" tweets so that even if a tweet is deleted, data with relationships to it (like replies and reposts) are still intact.
 
 #### Request
 ```javascript
@@ -313,8 +307,6 @@ Creates a reply tweet to the tweet with the given id. The author of the newly-cr
 Because this creates a reply tweet, content is not optional. Additionally, notice that the `inReplyTo` property is not provided by the request. The server must create that relationship.
 
 The response should contain the newly-created tweet.
-
-**IMPORTANT:** when a tweet with `content` is created, the server must process the tweet's content for `@{username}` mentions and `#{hashtag}` tags. There is no way to create hashtags or create mentions from the API, so this must be handled automatically!
 
 #### Request
 ```javascript
@@ -349,8 +341,6 @@ The response should contain the newly-created tweet.
 ### `GET     tweets/{id}/tags`
 Retrieves the tags associated with the tweet with the given id. If that tweet is deleted or otherwise doesn't exist, an error should be sent in lieu of a response.
 
-**IMPORTANT** Remember that tags and mentions must be parsed by the server!
-
 #### Response
 ```javascript
 ['Hashtag']
@@ -368,8 +358,6 @@ Deleted users should be excluded from the response.
 
 ### `GET     tweets/{id}/context`
 Retrieves the context of the tweet with the given id. If that tweet is deleted or otherwise doesn't exist, an error should be sent in lieu of a response.
-
-**IMPORTANT:** While deleted tweets should not be included in the `before` and `after` properties of the result, transitive replies should. What that means is that if a reply to the target of the context is deleted, but there's another reply to the deleted reply, the deleted reply should be excluded but the other reply should remain.
 
 #### Response
 ```javascript
@@ -400,8 +388,6 @@ Deleted reposts of the tweet should be excluded from the response.
 Retrieves the users mentioned in the tweet with the given id. If that tweet is deleted or otherwise doesn't exist, an error should be sent in lieu of a response.
 
 Deleted users should be excluded from the response.
-
-**IMPORTANT** Remember that tags and mentions must be parsed by the server!
 
 #### Response
 ```javascript
